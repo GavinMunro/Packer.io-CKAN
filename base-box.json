@@ -1,0 +1,52 @@
+{
+"variables": {
+    "comment": "blah blah",
+    "hostname": "ckan"
+    },
+
+"builders": [
+    {
+    "type": "virtualbox-iso",
+    "guest_os_type": "Ubuntu_64",
+ 
+    "disk_size": 10000,
+    
+    "iso_url": "ubuntu-14.04.2-desktop-amd64.iso",
+    "iso_checksum": "39eeb28bdb8af630850e75e54b9864ca07640a2bb10bd10055763236b99f9b1d",
+    "iso_checksum_type": "sha256",
+ 
+    "http_directory": "http",
+    "guest_additions_mode": "disable",
+    "boot_wait": "10s",
+    "boot_command": [
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz noapic ",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "debian-installer=en_US auto locale=en_AU kbd-chooser/method=us ",
+        "hostname={{ .Name }} ",
+        "fb=false debconf/frontend=noninteractive ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+        "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "initrd=/install/initrd.gz -- <enter>"
+        ],
+
+    "headless": "false",
+    "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+  
+    "ssh_username": "ubuntu",
+    "ssh_password": "insecure",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "60s"
+    }
+],
+
+ "provisioners": [{
+    "type": "shell",
+    "inline": [
+      "sleep 30",
+      "echo provsioner woz ere"
+    ]
+  }]
+
+
+}
